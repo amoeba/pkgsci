@@ -5,7 +5,6 @@
 #'
 #' @return A list of parsed information from a roxy_block object such as its
 #' title, description, and formals
-#' @export
 parse_roxy_block <- function(roxy_block) {
   stopifnot(class(roxy_block) == "roxy_block")
 

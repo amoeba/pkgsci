@@ -4,7 +4,6 @@
 #'
 #' @return A `data.frame` with a row for each formal, its value, and the
 #' function it belongs to
-#' @export
 extract_formals <- function(roxy_block) {
   parsed_block <- parse_roxy_block(roxy_block)
 

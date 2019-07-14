@@ -6,7 +6,6 @@
 #' @param targz_path Path to a `.tar.gz`
 #'
 #' @return A `data.frame` of the package's formals
-#' @export
 process_package <- function(targz_path) {
   stopifnot(file.exists(targz_path))
   stopifnot(grepl("\\.tar\\.gz$", targz_path))
