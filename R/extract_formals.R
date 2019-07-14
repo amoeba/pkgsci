@@ -25,5 +25,6 @@ extract_formals <- function(roxy_block) {
   # might do once loaded by `roxygen2`. e.g., `ggplot2`
   base::data.frame(name = parsed_block$name,
                    arg = formal_names,
-                   value = formal_values)
+                   value = formal_values,
+                   stringsAsFactors = FALSE)
 }
