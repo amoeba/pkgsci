@@ -16,8 +16,15 @@ process_package <- function(targz_path) {
   extract_dir <- tempdir()
   utils::untar(targz_path, exdir = extract_dir)
 
-  # Process
-  roxy_blocks <- roxygen2::parse_package(file.path(extract_dir, package$name))
+  # Process packages as safely as we can with a tryCatch
+  roxy_blocks <- tryCatch({
+    roxygen2::parse_package(file.path(extract_dir, package$name))
+  },
+  error = function(e) {
+    warning(e)
+
+    return(base::data.frame())
+  })
 
   if (length(roxy_blocks) == 0) {
     warning("No roxy_blocks extracted from ", targz_path, ".")
