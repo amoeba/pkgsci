@@ -1,8 +1,9 @@
 #' Process packages
 #'
-#' Processes a set of `.tar.gz` archives at the specified `path`.
+#' Processes a set of packages at the given path. The path specified by `path`
+#' is scanned for folders containing `DESCRIPTION` files.
 #'
-#' @param path The path to look for `.tar.gz` files.
+#' @param path The path to look for package source directories.
 #' @param out_path If set, write resulting `data.frame` out at `out_path` as a
 #' `CSV`.
 #'
@@ -12,8 +13,14 @@
 process_packages <- function(path, out_path = NULL) {
   stopifnot(file.exists(path))
 
-  paths <- dir(path, pattern = "\\.tar\\.gz$", full.names = TRUE)
-  results <- do.call(rbind, lapply(paths, process_package))
+  dirs <- list.dirs(path, recursive = FALSE)
+
+  # Filter out any dirs that don't have a DESCRIPTION file
+  dirs <- Filter(function(subdir) {
+    "DESCRIPTION" %in% dir(subdir)
+  }, dirs)
+
+  results <- do.call(rbind, lapply(dirs, process_package))
 
   # Write a CSV and return the `out_path` invisibly when `out_path` is set.
   if (!is.null(out_path)) {

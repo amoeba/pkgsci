@@ -4,15 +4,14 @@
 \alias{process_package}
 \title{Process an individual package}
 \usage{
-process_package(targz_path)
+process_package(path)
 }
 \arguments{
-\item{targz_path}{Path to a \code{.tar.gz}}
+\item{path}{The path to the package's source}
 }
 \value{
 A \code{data.frame} of the package's formals
 }
 \description{
-Processes a package as a `.tar.gz`` file and returns the extracted formal
-arguments and their default values.
+Processes a package from its source extracted on disk.
 }

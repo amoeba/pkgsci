@@ -7,7 +7,7 @@
 process_packages(path, out_path = NULL)
 }
 \arguments{
-\item{path}{The path to look for \code{.tar.gz} files.}
+\item{path}{The path to look for package source directories.}
 
 \item{out_path}{If set, write resulting \code{data.frame} out at \code{out_path} as a
 \code{CSV}.}
@@ -17,5 +17,6 @@ A \code{data.frame} unless \code{out_path} is specified, in which case a \code{C
 file is written at \code{out_path} and \code{out_path} is returned invisibly.
 }
 \description{
-Processes a set of \code{.tar.gz} archives at the specified \code{path}.
+Processes a set of packages at the given path. The path specified by \code{path}
+is scanned for folders containing \code{DESCRIPTION} files.
 }

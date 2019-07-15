@@ -1,24 +1,16 @@
 #' Process an individual package
 #'
-#' Processes a package as a `.tar.gz`` file and returns the extracted formal
-#' arguments and their default values.
+#' Processes a package from its source extracted on disk.
 #'
-#' @param targz_path Path to a `.tar.gz`
+#' @param path The path to the package's source
 #'
 #' @return A `data.frame` of the package's formals
-process_package <- function(targz_path) {
-  stopifnot(file.exists(targz_path))
-  stopifnot(grepl("\\.tar\\.gz$", targz_path))
-
-  package <- parse_package_name(targz_path)
-
-  # Unzip package
-  extract_dir <- tempdir()
-  utils::untar(targz_path, exdir = extract_dir)
+process_package <- function(path) {
+  stopifnot(file.exists(path))
 
   # Process packages as safely as we can with a tryCatch
   roxy_blocks <- tryCatch({
-    roxygen2::parse_package(file.path(extract_dir, package$name))
+    roxygen2::parse_package(path)
   },
   error = function(e) {
     warning(e)
@@ -27,7 +19,7 @@ process_package <- function(targz_path) {
   })
 
   if (length(roxy_blocks) == 0) {
-    warning("No roxy_blocks extracted from ", targz_path, ".")
+    warning("No roxy_blocks extracted from package source at ", path, ".")
 
     return(base::data.frame())
   }
@@ -36,17 +28,10 @@ process_package <- function(targz_path) {
 
   # Add on package name
   result <- cbind(
-    base::data.frame(package_name = package$name,
-               package_version = package$version),
+    base::data.frame(
+      path = path),
     result
   )
-
-  # Clean up after ourselves just in case
-  on.exit({
-    if (file.exists(extract_dir)) {
-      unlink(extract_dir)
-    }
-  })
 
   result
 }
