@@ -4,22 +4,30 @@
 [![Travis build status](https://travis-ci.org/amoeba/pkgsci.svg?branch=master)](https://travis-ci.org/amoeba/pkgsci)
 <!-- badges: end -->
 
-The goal of pkgsci is to ...
+A set of utility functions for collating information about how people write packages.
 
 ## Installation
 
-You can install the released version of pkgsci from [CRAN](https://CRAN.R-project.org) with:
-
 ``` r
-install.packages("pkgsci")
+remotes::install_githb("amoeba/pkgsci")
 ```
 
-## Example
+## Usage
 
-This is a basic example which shows you how to solve a common problem:
+`pkgsci` processes directories containing `.tar.gz` files with R package sources.
+Assuming you have a directory on your computer, `/tmp/packages`, you can run:
 
-``` r
+```r
 library(pkgsci)
-## basic example code
+
+process_packages('/tmp/packages')
 ```
+
+And you should be given a `data.frame` with columns:
+
+- `package_name`
+- `package_version`
+- `name`
+- `arg`
+- `value`
 
